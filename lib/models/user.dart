@@ -2,7 +2,7 @@ import '../string_utils.dart';
 
 enum LoginType { email, phone }
 
-class User {
+class User with UserUtils{
   String email;
   String phone;
   String _lastName;
@@ -28,7 +28,7 @@ class User {
         firstName: _getFirstName(name),
         lastName: _getLastName(name),
         phone: checkPhone(phone),
-        email: checkEnail(email));
+        email: checkEmail(email));
   }
 
   static String _getLastName(String userName) => userName.split(" ")[1];
@@ -36,20 +36,23 @@ class User {
   static String _getFirstName(String userName) => userName.split(" ")[0];
 
   static String checkPhone(String phone) {
+    if (phone == null) return null;
     String pattern = "^(?:[+0])?[0-9]{11}";
     phone = phone.replaceAll(RegExp("[^+\\d]"), "");
 
-    if (phone == null || phone.isEmpty) {
-      throw Exception('Enter not empty phone number');
-    } else if (!RegExp(pattern).hasMatch(phone)) {
-      throw Exception('Enter a valid phone number');
+    if (!RegExp(pattern).hasMatch(phone)) {
+      throw Exception(
+          'Enter a valid phone number starting with a + and containing 11 digits');
     }
     return phone;
   }
 
-  static String checkEnail(String email) {
-    if (email == null || email.isEmpty) {
-      throw Exception("Enter not empty email");
+  static String checkEmail(String email) {
+    if (email == null) return null;
+    String pattern = r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
+    if (!RegExp(pattern).hasMatch(email)) {
+      throw Exception(
+          'Enter a valid email address');
     }
     return email;
   }
@@ -59,7 +62,7 @@ class User {
     return email;
   }
 
-  String get name => "${_firstName.capitalize()} ${_lastName.capitalize()}";
+  String get name => "${capitalize(_firstName)} ${capitalize(_lastName)}";
 
   @override
   bool operator ==(Object object) {
@@ -73,12 +76,16 @@ class User {
     }
   }
 
-  void addFriend(Iterable<User> newFriends) {
+  void addFriends(Iterable<User> newFriends) {
     friends.addAll(newFriends);
   }
 
   void removeFriend(User user) {
     friends.remove(user);
+  }
+
+  bool hasFriend(User user) {
+    return friends.contains(user);
   }
 
   String get userInfo => '''
@@ -96,5 +103,10 @@ class User {
     email: $email
     friends: ${friends.toList()}
   ''';
+  }
+
+  static fromCVS(String userCSV) {
+    var lines = userCSV.split(";");
+    return User(email: lines[1].trim(), phone: lines[2].trim(), name: lines[0].trim());
   }
 }
