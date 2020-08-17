@@ -1,8 +1,6 @@
 import 'package:FlutterGalleryApp/res/res.dart';
 import 'package:FlutterGalleryApp/screens/photo_screen.dart';
-import 'package:FlutterGalleryApp/viewmodel/photo_item.dart';
 import 'package:FlutterGalleryApp/widgets/like_button.dart';
-import 'package:FlutterGalleryApp/widgets/user_info.dart';
 import 'package:FlutterGalleryApp/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -96,4 +94,24 @@ Widget _buildPhotoMeta(PhotoItem item) {
       ],
     ),
   );
+}
+
+class PhotoItem {
+  PhotoItem(
+      {this.userName,
+      this.userNickName,
+      this.userAvatar,
+      this.photoLink,
+      this.description,
+      this.likeCount,
+      this.isLiked});
+
+  String userName;
+  String userNickName;
+  String userAvatar;
+  String photoLink;
+  String description;
+
+  int likeCount;
+  bool isLiked;
 }
