@@ -2,6 +2,7 @@ import 'package:FlutterGalleryApp/res/res.dart';
 import 'package:FlutterGalleryApp/widgets/like_button.dart';
 import 'package:FlutterGalleryApp/widgets/user_info.dart';
 import 'package:FlutterGalleryApp/widgets/widgets.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class FullScreenImage extends StatelessWidget {
@@ -14,13 +15,13 @@ class FullScreenImage extends StatelessWidget {
   final String altDescription;
 
   FullScreenImage(
-      {this.name,
-      this.userName,
-      this.userAvatar,
-      this.photoLink,
-      this.altDescription,
-      this.likeCount,
-      this.isLiked,
+      {this.name = '',
+      this.userName = '',
+      this.userAvatar = '',
+      this.photoLink = '',
+      this.altDescription = '',
+      this.likeCount = 0,
+      this.isLiked = false,
       Key key})
       : super(key: key);
 
@@ -39,7 +40,7 @@ class FullScreenImage extends StatelessWidget {
       elevation: 0,
       leading: IconButton(
         onPressed: () => Navigator.pop(context),
-        icon: Icon(Icons.arrow_back_ios),
+        icon: Icon(CupertinoIcons.back),
         color: Colors.black,
       ),
       title: Text(
@@ -68,7 +69,7 @@ class FullScreenImage extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           child: UserInfo(
-              userAvatar: userAvatar, userName: name, userNickname: userName),
+              userAvatar: userAvatar, userName: name, userNickname: '@$userName'),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -76,25 +77,17 @@ class FullScreenImage extends StatelessWidget {
             Container(
               height: 36,
               width: 105,
-              child: LikeButton(likeCount, isLiked),
+              child: Center(child: LikeButton(likeCount, isLiked)),
             ),
-            _buildActions(),
+            _buildButton('Save'),
+            _buildButton('Visit'),
           ],
         )
       ],
     );
   }
 
-  Widget _buildActions() {
-    return Row(
-      children: [
-        buildButton('Save'),
-        buildButton('Visit'),
-      ],
-    );
-  }
-
-  GestureDetector buildButton(String title) {
+  GestureDetector _buildButton(String title) {
     return GestureDetector(
       onTap: () {},
       child: Container(
