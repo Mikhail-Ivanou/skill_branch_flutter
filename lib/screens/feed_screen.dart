@@ -1,5 +1,8 @@
 import 'package:FlutterGalleryApp/res/res.dart';
+import 'package:FlutterGalleryApp/screens/photo_screen.dart';
+import 'package:FlutterGalleryApp/viewmodel/photo_item.dart';
 import 'package:FlutterGalleryApp/widgets/like_button.dart';
+import 'package:FlutterGalleryApp/widgets/user_info.dart';
 import 'package:FlutterGalleryApp/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -16,13 +19,22 @@ class Feed extends StatefulWidget {
 class _FeedState extends State<Feed> {
   @override
   Widget build(BuildContext context) {
+    PhotoItem item = PhotoItem(
+        userAvatar:
+            'https://sun9-3.userapi.com/c5779/u156848426/d_71759ad9.jpg',
+        userName: 'Mike Ivanou',
+        userNickName: '@MikeIvanou',
+        photoLink: kFlutterDash,
+        description: 'This is Flutter dash, I love him :)',
+        likeCount: 10,
+        isLiked: true);
     return Scaffold(
       body: ListView.builder(
           itemCount: 10,
           itemBuilder: (BuildContext context, int index) {
             return Column(
               children: <Widget>[
-                _buildItem(),
+                _buildItem(context, item),
                 Divider(
                   thickness: 2,
                   color: AppColors.mercury,
@@ -34,54 +46,52 @@ class _FeedState extends State<Feed> {
   }
 }
 
-Widget _buildItem() {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      Photo(
-        photoLink: kFlutterDash,
-      ),
-      _buildPhotoMeta(),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        child: Text(
-          'This is Flutter dash, I love him :)',
-          maxLines: 3,
-          overflow: TextOverflow.ellipsis,
-          style: AppStyles.h3.copyWith(color: AppColors.black),
+Widget _buildItem(BuildContext context, PhotoItem item) {
+  return GestureDetector(
+    onTap: () => Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => FullScreenImage(
+                photoLink: item.photoLink,
+                altDescription: item.description,
+                isLiked: item.isLiked,
+                likeCount: item.likeCount,
+                userName: item.userNickName,
+                name: item.userName,
+                userAvatar: item.userAvatar,
+              )),
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Photo(
+          photoLink: item.photoLink,
         ),
-      )
-    ],
+        _buildPhotoMeta(item),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          child: Text(
+            item.description,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+            style: AppStyles.h3,
+          ),
+        )
+      ],
+    ),
   );
 }
 
-Widget _buildPhotoMeta() {
+Widget _buildPhotoMeta(PhotoItem item) {
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Row(children: <Widget>[
-          UserAvatar(
-              'https://sun9-3.userapi.com/c5779/u156848426/d_71759ad9.jpg'),
-          SizedBox(
-            width: 6,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                'Mike Ivanou',
-                style: AppStyles.h2Black,
-              ),
-              Text(
-                '@MikeIvanou',
-                style: AppStyles.h5Black.copyWith(color: AppColors.manatee),
-              )
-            ],
-          ),
-        ]),
+        UserInfo(
+            userAvatar: item.userAvatar,
+            userName: item.userName,
+            userNickname: item.userNickName),
         LikeButton(10, true)
       ],
     ),
