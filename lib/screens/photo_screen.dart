@@ -12,6 +12,7 @@ class FullScreenImage extends StatelessWidget {
   final String userAvatar;
   final String photoLink;
   final String altDescription;
+  final String heroTag;
 
   FullScreenImage(
       {this.name = '',
@@ -21,6 +22,7 @@ class FullScreenImage extends StatelessWidget {
       this.altDescription = '',
       this.likeCount = 0,
       this.isLiked = false,
+      this.heroTag,
       Key key})
       : super(key: key);
 
@@ -53,8 +55,11 @@ class FullScreenImage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Photo(
-          photoLink: photoLink,
+        Hero(
+          tag: heroTag,
+          child: Photo(
+            photoLink: photoLink,
+          ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -68,7 +73,9 @@ class FullScreenImage extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           child: UserInfo(
-              userAvatar: userAvatar, userName: name, userNickname: '@$userName'),
+              userAvatar: userAvatar,
+              userName: name,
+              userNickname: '@$userName'),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,

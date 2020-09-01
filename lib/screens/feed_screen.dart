@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 const String kFlutterDash =
     'https://flutter.dev/assets/404/dash_nest-c64796b59b65042a2b40fae5764c13b7477a592db79eaf04c86298dcb75b78ea.png';
+const String kHeroTag = 'heroTag';
 
 class Feed extends StatefulWidget {
   Feed({Key key}) : super(key: key);
@@ -32,7 +33,7 @@ class _FeedState extends State<Feed> {
           itemBuilder: (BuildContext context, int index) {
             return Column(
               children: <Widget>[
-                _buildItem(context, item),
+                _buildItem(context, item, index),
                 Divider(
                   thickness: 2,
                   color: AppColors.mercury,
@@ -44,7 +45,7 @@ class _FeedState extends State<Feed> {
   }
 }
 
-Widget _buildItem(BuildContext context, PhotoItem item) {
+Widget _buildItem(BuildContext context, PhotoItem item, int index) {
   return GestureDetector(
     onTap: () => Navigator.push(
       context,
@@ -57,13 +58,17 @@ Widget _buildItem(BuildContext context, PhotoItem item) {
                 userName: item.userNickName,
                 name: item.userName,
                 userAvatar: item.userAvatar,
+                heroTag: kHeroTag + index.toString(),
               )),
     ),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Photo(
-          photoLink: item.photoLink,
+        Hero(
+          tag: kHeroTag + index.toString(),
+          child: Photo(
+            photoLink: item.photoLink,
+          ),
         ),
         _buildPhotoMeta(item),
         Padding(
