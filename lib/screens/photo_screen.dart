@@ -10,7 +10,7 @@ class FullScreenImage extends StatefulWidget {
   final String name;
   final String userName;
   final String userAvatar;
-  final String photoLink;
+  final String photo;
   final String altDescription;
   final String heroTag;
 
@@ -21,7 +21,7 @@ class FullScreenImage extends StatefulWidget {
       this.name,
       this.userName,
       this.userAvatar,
-      this.photoLink,
+      this.photo,
       this.altDescription,
       this.heroTag})
       : super(key: key);
@@ -54,7 +54,7 @@ class _FullScreenImageState extends State<FullScreenImage>
       name: widget.name,
       userName: widget.userName,
       userAvatar: widget.userAvatar,
-      photoLink: widget.photoLink,
+      photoLink: widget.photo,
       altDescription: widget.altDescription,
       likeCount: widget.likeCount,
       isLiked: widget.isLiked,
