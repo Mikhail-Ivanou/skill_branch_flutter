@@ -9,18 +9,18 @@ class FullScreenImage extends StatefulWidget {
   final bool isLiked;
   final String name;
   final String userName;
-  final String userAvatar;
+  final String userPhoto;
   final String photo;
   final String altDescription;
   final String heroTag;
 
   const FullScreenImage(
       {Key key,
-      this.likeCount,
-      this.isLiked,
+      this.likeCount = 0,
+      this.isLiked = false,
       this.name,
       this.userName,
-      this.userAvatar,
+      this.userPhoto,
       this.photo,
       this.altDescription,
       this.heroTag})
@@ -53,7 +53,7 @@ class _FullScreenImageState extends State<FullScreenImage>
     return FullScreenAnimated(
       name: widget.name,
       userName: widget.userName,
-      userAvatar: widget.userAvatar,
+      userAvatar: widget.userPhoto,
       photoLink: widget.photo,
       altDescription: widget.altDescription,
       likeCount: widget.likeCount,
@@ -199,7 +199,8 @@ class FullScreenAnimated extends StatelessWidget {
             Container(
               height: 36,
               width: 105,
-              child: Center(child: LikeButton(likeCount, isLiked)),
+              child: Center(
+                  child: LikeButton(likeCount: likeCount, isLiked: isLiked)),
             ),
             _buildButton('Save'),
             _buildButton('Visit'),

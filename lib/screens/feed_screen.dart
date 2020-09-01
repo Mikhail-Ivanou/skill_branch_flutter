@@ -51,13 +51,13 @@ Widget _buildItem(BuildContext context, PhotoItem item, int index) {
       context,
       MaterialPageRoute(
           builder: (context) => FullScreenImage(
-                photoLink: item.photoLink,
+                photo: item.photoLink,
                 altDescription: item.description,
                 isLiked: item.isLiked,
                 likeCount: item.likeCount,
                 userName: item.userNickName,
                 name: item.userName,
-                userAvatar: item.userAvatar,
+                userPhoto: item.userAvatar,
                 heroTag: kHeroTag + index.toString(),
               )),
     ),
@@ -95,7 +95,7 @@ Widget _buildPhotoMeta(PhotoItem item) {
             userAvatar: item.userAvatar,
             userName: item.userName,
             userNickname: item.userNickName),
-        LikeButton(10, true)
+        LikeButton(likeCount: 10, isLiked: true)
       ],
     ),
   );
