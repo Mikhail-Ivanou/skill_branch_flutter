@@ -28,19 +28,19 @@ class _HomeState extends State<Home> {
         },
         items: [
           BottomNavyBarItem(
-            asset: AppIcons.like,
+            asset: AppIcons.home,
             title: Text('Feed'),
             activeColor: AppColors.dodgerBlue,
             inactiveColor: AppColors.manatee,
           ),
           BottomNavyBarItem(
-            asset: AppIcons.like,
+            asset: AppIcons.home,
             title: Text('Search'),
             activeColor: AppColors.dodgerBlue,
             inactiveColor: AppColors.manatee,
           ),
           BottomNavyBarItem(
-            asset: AppIcons.like,
+            asset: AppIcons.home,
             title: Text('User'),
             activeColor: AppColors.dodgerBlue,
             inactiveColor: AppColors.manatee,
