@@ -1,6 +1,7 @@
 export 'photo.dart';
 export 'user_avatar.dart';
 export 'like_button.dart';
+export 'claim_bottom_sheet.dart';
 
 import 'package:FlutterGalleryApp/res/res.dart';
 import 'package:flutter/material.dart';
@@ -26,11 +27,14 @@ class UserInfo extends StatelessWidget {
         children: <Widget>[
           Text(
             userName,
-            style: AppStyles.h2Black,
+            style: Theme.of(context).textTheme.headline2,
           ),
           Text(
             userNickname,
-            style: AppStyles.h5Black.copyWith(color: AppColors.manatee),
+            style: Theme.of(context)
+                .textTheme
+                .headline5
+                .copyWith(color: AppColors.manatee),
           )
         ],
       )

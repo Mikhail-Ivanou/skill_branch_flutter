@@ -47,19 +47,34 @@ class _FeedState extends State<Feed> {
 
 Widget _buildItem(BuildContext context, PhotoItem item, int index) {
   return GestureDetector(
-    onTap: () => Navigator.push(
+    onTap: () => Navigator.pushNamed(
       context,
-      MaterialPageRoute(
-          builder: (context) => FullScreenImage(
-                photo: item.photoLink,
-                altDescription: item.description,
-                isLiked: item.isLiked,
-                likeCount: item.likeCount,
-                userName: item.userNickName,
-                name: item.userName,
-                userPhoto: item.userAvatar,
-                heroTag: kHeroTag + index.toString(),
-              )),
+      '/fullScreenImage',
+      arguments: FullScreenImageArguments(
+          photo: item.photoLink,
+          altDescription: item.description,
+          isLiked: item.isLiked,
+          likeCount: item.likeCount,
+          userName: item.userNickName,
+          name: item.userName,
+          userPhoto: item.userAvatar,
+          heroTag: kHeroTag + index.toString(),
+          routeSettings: RouteSettings(
+            arguments: 'Some title',
+          )),
+
+//      context,
+//      MaterialPageRoute(
+//          builder: (context) => FullScreenImage(
+//                photo: item.photoLink,
+//                altDescription: item.description,
+//                isLiked: item.isLiked,
+//                likeCount: item.likeCount,
+//                userName: item.userNickName,
+//                name: item.userName,
+//                userPhoto: item.userAvatar,
+//                heroTag: kHeroTag + index.toString(),
+//              )),
     ),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,7 +92,7 @@ Widget _buildItem(BuildContext context, PhotoItem item, int index) {
             item.description,
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
-            style: AppStyles.h3,
+            style: Theme.of(context).textTheme.headline3,
           ),
         )
       ],

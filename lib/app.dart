@@ -1,5 +1,9 @@
-import 'package:FlutterGalleryApp/screens/feed_screen.dart';
+import 'dart:io';
+
 import 'package:FlutterGalleryApp/screens/home.dart';
+import 'package:FlutterGalleryApp/screens/photo_screen.dart';
+import 'package:connectivity/connectivity.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MyApp extends StatelessWidget {
@@ -13,7 +17,30 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Home(),
+      onGenerateRoute: (RouteSettings settings) {
+        if (settings.name == '/fullScreenImage') {
+          FullScreenImageArguments arguments =
+              settings.arguments as FullScreenImageArguments;
+          final route = FullScreenImage(
+            photo: arguments.photo,
+            userName: arguments.userName,
+            isLiked: arguments.isLiked,
+            userPhoto: arguments.userPhoto,
+            likeCount: arguments.likeCount,
+            altDescription: arguments.altDescription,
+            heroTag: arguments.heroTag,
+            name: arguments.name,
+            key: arguments.key,
+          );
+          if (Platform.isAndroid) {
+            return MaterialPageRoute(
+                builder: (context) => route, settings: arguments.routeSettings);
+          } else {
+            return CupertinoPageRoute(builder: (context) => route);
+          }
+        }
+      },
+      home: Home(Connectivity().onConnectivityChanged),
     );
   }
 }

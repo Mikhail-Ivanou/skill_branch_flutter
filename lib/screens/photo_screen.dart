@@ -1,8 +1,34 @@
 import 'package:FlutterGalleryApp/res/res.dart';
-import 'package:FlutterGalleryApp/widgets/like_button.dart';
 import 'package:FlutterGalleryApp/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gallery_saver/gallery_saver.dart';
+
+class FullScreenImageArguments {
+  FullScreenImageArguments({
+    this.key,
+    this.likeCount,
+    this.isLiked,
+    this.name,
+    this.userName,
+    this.userPhoto,
+    this.photo,
+    this.altDescription,
+    this.heroTag,
+    this.routeSettings,
+  });
+
+  final int likeCount;
+  final bool isLiked;
+  final String name;
+  final String userName;
+  final String userPhoto;
+  final String photo;
+  final String altDescription;
+  final String heroTag;
+  final Key key;
+  final RouteSettings routeSettings;
+}
 
 class FullScreenImage extends StatefulWidget {
   final int likeCount;
@@ -133,6 +159,33 @@ class FullScreenAnimated extends StatelessWidget {
     return AppBar(
       backgroundColor: Colors.white,
       elevation: 0,
+      actions: [
+        IconButton(
+          onPressed: () {
+            showModalBottomSheet(
+                context: context,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20.0),
+                    topRight: Radius.circular(20.0),
+                  ),
+                ),
+                builder: (context) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(20.0),
+                          topLeft: Radius.circular(20.0)),
+                    ),
+                    child: ClaimBottomSheet(),
+                  );
+                });
+          },
+          icon: Icon(Icons.more_vert),
+          color: Colors.black,
+        ),
+      ],
       leading: IconButton(
         onPressed: () => Navigator.pop(context),
         icon: Icon(CupertinoIcons.back),
@@ -161,7 +214,7 @@ class FullScreenAnimated extends StatelessWidget {
             altDescription,
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
-            style: AppStyles.h3,
+            style: Theme.of(context).textTheme.headline3,
           ),
         ),
         Padding(
@@ -182,11 +235,14 @@ class FullScreenAnimated extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     name,
-                    style: AppStyles.h2Black,
+                    style: Theme.of(context).textTheme.headline2,
                   ),
                   Text(
                     '${userName}',
-                    style: AppStyles.h5Black.copyWith(color: AppColors.manatee),
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline5
+                        .copyWith(color: AppColors.manatee),
                   )
                 ],
               ),
@@ -202,17 +258,48 @@ class FullScreenAnimated extends StatelessWidget {
               child: Center(
                   child: LikeButton(likeCount: likeCount, isLiked: isLiked)),
             ),
-            _buildButton('Save'),
-            _buildButton('Visit'),
+            Expanded(
+              child: _buildButton('Save', () {
+                showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                          title: Text('Downloading photos'),
+                          content:
+                              Text('Are you sure you want to upload a photo?'),
+                          actions: <Widget>[
+                            FlatButton(
+                                onPressed: () {
+                                  GallerySaver.saveImage(photoLink)
+                                      .then((bool success) {
+                                    Navigator.of(context).pop();
+                                  });
+                                },
+                                child: Text('Download')),
+                            FlatButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text('Close')),
+                          ],
+                        ));
+              }),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _buildButton(
+                'Visit',
+                () {},
+              ),
+            ),
           ],
         )
       ],
     );
   }
 
-  GestureDetector _buildButton(String title) {
+  GestureDetector _buildButton(String title, VoidCallback callback) {
     return GestureDetector(
-      onTap: () {},
+      onTap: callback,
       child: Container(
         height: 36,
         width: 105,
