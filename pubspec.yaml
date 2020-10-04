@@ -17,6 +17,7 @@ dependencies:
   cached_network_image: ^2.2.0+1
   gallery_saver: ^2.0.1
   connectivity: ^0.4.9+2
+  http: ^0.12.2
 
 dev_dependencies:
   flutter_test:
