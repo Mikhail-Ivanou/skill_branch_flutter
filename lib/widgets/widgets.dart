@@ -10,9 +10,9 @@ import 'user_avatar.dart';
 class UserInfo extends StatelessWidget {
   UserInfo({this.userAvatar, this.userName, this.userNickname});
 
-  String userAvatar;
-  String userName;
-  String userNickname;
+  final String userAvatar;
+  final String userName;
+  final String userNickname;
 
   @override
   Widget build(BuildContext context) {
@@ -30,11 +30,8 @@ class UserInfo extends StatelessWidget {
             style: Theme.of(context).textTheme.headline2,
           ),
           Text(
-            userNickname,
-            style: Theme.of(context)
-                .textTheme
-                .headline5
-                .copyWith(color: AppColors.manatee),
+            '@$userNickname',
+            style: Theme.of(context).textTheme.headline5.copyWith(color: AppColors.manatee),
           )
         ],
       )

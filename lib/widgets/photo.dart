@@ -10,6 +10,7 @@ class Photo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width - 20;
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: 10,
@@ -18,13 +19,14 @@ class Photo extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(17)),
         child: Container(
+          height: width,
+          width: width,
           color: AppColors.grayChateau,
           child: CachedNetworkImage(
             imageUrl: photoLink,
-            placeholder: (context, url) =>
-                Center(child: CircularProgressIndicator()),
+            placeholder: (context, url) => Center(child: CircularProgressIndicator()),
             errorWidget: (context, url, error) => Icon(Icons.error),
-            fit: BoxFit.fill,
+            fit: BoxFit.cover, //TODO fix ratio
           ),
         ),
       ),

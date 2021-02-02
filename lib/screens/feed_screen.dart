@@ -14,7 +14,7 @@ class Feed extends StatefulWidget {
 }
 
 class _FeedState extends State<Feed> {
-  List<PhotoItem> items = List<PhotoItem>();
+  List<PhotoItem> items = [];
   ScrollController _controller;
   bool isLoading = false;
   int currentPage = 1;
@@ -23,8 +23,7 @@ class _FeedState extends State<Feed> {
   void initState() {
     _controller = ScrollController();
     _controller.addListener(() {
-      if (_controller.offset >= _controller.position.maxScrollExtent &&
-          !_controller.position.outOfRange) {
+      if (_controller.offset >= _controller.position.maxScrollExtent && !_controller.position.outOfRange) {
         if (!isLoading) {
           _loadFeed(page: ++currentPage);
         }
@@ -38,8 +37,7 @@ class _FeedState extends State<Feed> {
     setState(() {
       isLoading = true;
     });
-    List<photoModel.Photo> result =
-        await DataProvider.getPhotos(page: page, page_size: 20);
+    List<photoModel.Photo> result = await DataProvider.getPhotos(page: page, page_size: 20);
     setState(() {
       isLoading = false;
       if (clear == true) {
@@ -162,10 +160,7 @@ Widget _buildPhotoMeta(PhotoItem item) {
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        UserInfo(
-            userAvatar: item.userAvatar,
-            userName: item.userName,
-            userNickname: item.userNickName),
+        UserInfo(userAvatar: item.userAvatar, userName: item.userName, userNickname: item.userNickName),
         LikeButton(likeCount: item.likeCount, isLiked: item.isLiked)
       ],
     ),
