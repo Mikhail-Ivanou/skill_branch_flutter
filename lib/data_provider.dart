@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:FlutterGalleryApp/models/collection.dart';
 import 'package:FlutterGalleryApp/models/photo.dart';
 import 'package:FlutterGalleryApp/models/user.dart';
+import 'package:flutter/material.dart';
 
 import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'package:http/http.dart' as http;
@@ -61,6 +63,63 @@ class DataProvider {
     if (response.statusCode == 200) {
       var decode = json.decode(response.body);
       return List<Photo>.from(decode.map((item) => Photo.fromJson(item)));
+    } else {
+      throw Exception("Couldn't get photos: ${response.reasonPhrase}");
+    }
+  }
+
+  static Future<List<Photo>> getPhotosByUser({
+    @required String userName,
+    int page,
+    int pageSize,
+  }) async {
+    var url = '${BASE_URL}users/$userName/photos?page=$page&per_page=$pageSize';
+    return _getContentByUser(userName: userName, url: url, page: page, pageSize: pageSize);
+  }
+
+  static Future<List<Photo>> getLikesByUser({
+    @required String userName,
+    int page,
+    int pageSize,
+  }) async {
+    var url = '${BASE_URL}users/$userName/likes?page=$page&per_page=$pageSize';
+    return _getContentByUser(userName: userName, url: url, page: page, pageSize: pageSize);
+  }
+
+  static Future<List<Collection>> getCollectionsByUser({
+    @required String userName,
+    int page,
+    int pageSize,
+  }) async {
+    var url = '${BASE_URL}users/$userName/collections?page=$page&per_page=$pageSize';
+    return _getCollectionsByUser(userName: userName, url: url, page: page, pageSize: pageSize);
+  }
+
+  static Future<List<Photo>> _getContentByUser({
+    @required String userName,
+    @required String url,
+    int page,
+    int pageSize,
+  }) async {
+    var response = await http.get(url, headers: HEADER);
+    if (response.statusCode == 200) {
+      var decode = json.decode(response.body);
+      return List<Photo>.from(decode.map((item) => Photo.fromJson(item)));
+    } else {
+      throw Exception("Couldn't get photos: ${response.reasonPhrase}");
+    }
+  }
+
+  static Future<List<Collection>> _getCollectionsByUser({
+    @required String userName,
+    @required String url,
+    int page,
+    int pageSize,
+  }) async {
+    var response = await http.get(url, headers: HEADER);
+    if (response.statusCode == 200) {
+      var decode = json.decode(response.body);
+      return List<Collection>.from(decode.map((item) => Collection.fromJson(item)));
     } else {
       throw Exception("Couldn't get photos: ${response.reasonPhrase}");
     }

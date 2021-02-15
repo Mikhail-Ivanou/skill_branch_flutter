@@ -14,7 +14,7 @@ class AppStyles {
   );
 
   static const _h5 = TextStyle(
-    fontSize: 13,
+    fontSize: 15,
     height: 18 / 13,
     fontWeight: FontWeight.normal,
     color: AppColors.black,
@@ -60,14 +60,26 @@ class AppStyles {
     fontFamily: 'Roboto',
     fontStyle: FontStyle.normal,
   );
+
+  static const _body = TextStyle(
+    fontSize: 14,
+    height: 20 / 14,
+    color: AppColors.black,
+    fontWeight: FontWeight.w300,
+    fontFamily: 'Roboto',
+    fontStyle: FontStyle.normal,
+    letterSpacing: -0.24,
+  );
 }
 
 TextTheme buildAppTextTheme() {
   return TextTheme(
-      headline1: AppStyles._h1,
-      headline2: AppStyles._h2,
-      headline3: AppStyles._h3,
-      headline4: AppStyles._h4,
-      headline5: AppStyles._h5,
-      headline6: AppStyles._h6);
+    headline1: AppStyles._h1,
+    headline2: AppStyles._h2,
+    headline3: AppStyles._h3,
+    headline4: AppStyles._h4,
+    headline5: AppStyles._h5,
+    headline6: AppStyles._h6,
+    bodyText1: AppStyles._body,
+  );
 }

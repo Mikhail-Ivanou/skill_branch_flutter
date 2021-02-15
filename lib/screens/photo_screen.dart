@@ -56,15 +56,12 @@ class FullScreenImage extends StatefulWidget {
   _FullScreenImageState createState() => _FullScreenImageState();
 }
 
-class _FullScreenImageState extends State<FullScreenImage>
-    with TickerProviderStateMixin {
+class _FullScreenImageState extends State<FullScreenImage> with TickerProviderStateMixin {
   AnimationController _controller;
 
   @override
   void initState() {
-    _controller = AnimationController(
-        duration: const Duration(milliseconds: 1500), vsync: this)
-      ..forward();
+    _controller = AnimationController(duration: const Duration(milliseconds: 1500), vsync: this)..forward();
     super.initState();
   }
 
@@ -174,9 +171,7 @@ class FullScreenAnimated extends StatelessWidget {
                   return Container(
                     decoration: BoxDecoration(
                       color: AppColors.white,
-                      borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(20.0),
-                          topLeft: Radius.circular(20.0)),
+                      borderRadius: BorderRadius.only(topRight: Radius.circular(20.0), topLeft: Radius.circular(20.0)),
                     ),
                     child: ClaimBottomSheet(),
                   );
@@ -202,10 +197,13 @@ class FullScreenAnimated extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Hero(
-          tag: heroTag,
-          child: Photo(
-            photoLink: photoLink,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          child: Hero(
+            tag: heroTag,
+            child: PhotoWidget(
+              photoLink: photoLink,
+            ),
           ),
         ),
         Padding(
@@ -239,10 +237,7 @@ class FullScreenAnimated extends StatelessWidget {
                   ),
                   Text(
                     '${userName}',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline5
-                        .copyWith(color: AppColors.manatee),
+                    style: Theme.of(context).textTheme.headline5.copyWith(color: AppColors.manatee),
                   )
                 ],
               ),
@@ -255,8 +250,7 @@ class FullScreenAnimated extends StatelessWidget {
             Container(
               height: 36,
               width: 105,
-              child: Center(
-                  child: LikeButton(likeCount: likeCount, isLiked: isLiked)),
+              child: Center(child: LikeButton(likeCount: likeCount, isLiked: isLiked)),
             ),
             Expanded(
               child: _buildButton('Save', () {
@@ -264,13 +258,11 @@ class FullScreenAnimated extends StatelessWidget {
                     context: context,
                     builder: (context) => AlertDialog(
                           title: Text('Downloading photos'),
-                          content:
-                              Text('Are you sure you want to upload a photo?'),
+                          content: Text('Are you sure you want to upload a photo?'),
                           actions: <Widget>[
                             FlatButton(
                                 onPressed: () {
-                                  GallerySaver.saveImage(photoLink)
-                                      .then((bool success) {
+                                  GallerySaver.saveImage(photoLink).then((bool success) {
                                     Navigator.of(context).pop();
                                   });
                                 },

@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MainPage extends StatelessWidget {
-  final currentTab = 0.obs;
+  final currentTab = 2.obs;
   final List<Widget> pages = [Feed(), Container(), ProfileContainer()];
   final menuItems = [
     BottomNavyBarItem(
@@ -39,14 +39,19 @@ class MainPage extends StatelessWidget {
               curve: Curves.ease,
               currentTab: currentTab.value,
               onItemSelected: (int index) async {
-                if (index == 2 && (DataProvider.token == null || DataProvider.token == null)) {
-                  try {
-                    final result = await DataProvider.getAuthToken();
-                    DataProvider.token = result;
+                if (index == 2) {
+                  if (DataProvider.token == null || DataProvider.token == null) {
+                    try {
+                      final result = await DataProvider.getAuthToken();
+                      DataProvider.token = result;
+                      currentTab.value = index;
+                      Get.find<ProfileController>().fetchProfile();
+                    } catch (e) {
+                      print(e);
+                    }
+                  } else {
                     currentTab.value = index;
                     Get.find<ProfileController>().fetchProfile();
-                  } catch (e) {
-                    print(e);
                   }
                 } else {
                   currentTab.value = index;

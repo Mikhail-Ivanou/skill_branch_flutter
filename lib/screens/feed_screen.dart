@@ -1,5 +1,7 @@
 import 'package:FlutterGalleryApp/data_provider.dart';
-import 'package:FlutterGalleryApp/models/photo.dart' as photoModel;
+import 'package:FlutterGalleryApp/models/photo.dart';
+import 'package:FlutterGalleryApp/models/extentions.dart';
+import 'package:FlutterGalleryApp/models/vm/photo_item.dart';
 import 'package:FlutterGalleryApp/res/res.dart';
 import 'package:FlutterGalleryApp/screens/photo_screen.dart';
 import 'package:FlutterGalleryApp/widgets/like_button.dart';
@@ -37,7 +39,7 @@ class _FeedState extends State<Feed> {
     setState(() {
       isLoading = true;
     });
-    List<photoModel.Photo> result = await DataProvider.getPhotos(page: page, page_size: 20);
+    List<Photo> result = await DataProvider.getPhotos(page: page, page_size: 20);
     setState(() {
       isLoading = false;
       if (clear == true) {
@@ -97,20 +99,6 @@ class _FeedState extends State<Feed> {
   }
 }
 
-extension ModelVm on photoModel.Photo {
-  PhotoItem toVm() {
-    return PhotoItem(
-        id: id,
-        userAvatar: user.profileImage?.small ?? '',
-        userName: '${user.firstName ?? ''} ${user.lastName ?? ''}',
-        userNickName: user.name ?? '',
-        photoLink: urls.small ?? '',
-        description: description ?? '',
-        likeCount: likes,
-        isLiked: likedByUser);
-  }
-}
-
 Widget _buildItem(BuildContext context, PhotoItem item, int index) {
   var openPhotoDetail = () => Navigator.pushNamed(
         context,
@@ -135,7 +123,7 @@ Widget _buildItem(BuildContext context, PhotoItem item, int index) {
         onTap: openPhotoDetail,
         child: Hero(
           tag: item.id,
-          child: Photo(
+          child: PhotoWidget(
             photoLink: item.photoLink,
           ),
         ),
@@ -165,26 +153,4 @@ Widget _buildPhotoMeta(PhotoItem item) {
       ],
     ),
   );
-}
-
-class PhotoItem {
-  var id;
-  String userName;
-  String userNickName;
-  String userAvatar;
-  String photoLink;
-  String description;
-
-  int likeCount;
-  bool isLiked;
-
-  PhotoItem(
-      {this.id,
-      this.userName,
-      this.userNickName,
-      this.userAvatar,
-      this.photoLink,
-      this.description,
-      this.likeCount,
-      this.isLiked});
 }
